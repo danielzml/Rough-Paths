@@ -1,0 +1,1 @@
+The path signature is a sequence of summary statistics that captures the geometric and temporal structure of a multivariate time series, encoding the joint evolution of different channels, such as the order of events. We compute signatures and signature kernels using only NumPy and SciPy.
