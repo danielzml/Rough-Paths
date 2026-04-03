@@ -159,6 +159,7 @@ d = path.shape[1]
 depth = 3
 signature = signature_via_cde(path, d, depth)
 
-# Organise and print by levels
+# Organise by levels
 sig_dict = format_signature_by_levels(signature, d, depth=depth)
-print_signature_dict(sig_dict)
+
+# print_signature_dict(sig_dict)
