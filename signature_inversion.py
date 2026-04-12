@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from signature import signatures_via_cde_batch
 
 
-def spherical_random_search(
+def greedy_search(
     sig_target_np,
     n_steps,
     spatial_dim,
@@ -17,9 +17,9 @@ def spherical_random_search(
 ):
     sig_target = sig_target_np
    
-    # Initialize
-    spatial = np.cumsum(np.random.randn(n_steps, spatial_dim), axis=0)
-    
+    # Initialise
+    spatial = np.zeros((n_steps, spatial_dim))
+
     # Align initial spatial if original provided (FIX #2)
     if original_spatial is not None:
         spatial = spatial + (original_spatial[0] - spatial[0])
@@ -59,7 +59,7 @@ def spherical_random_search(
         best_loss = losses_batch[best_idx]
        
         if best_loss < loss_current:
-            spatial = candidates[best_idx]  # Already aligned
+            spatial = candidates[best_idx] 
             loss_current = best_loss
        
         losses.append(loss_current)
@@ -99,7 +99,7 @@ if __name__ == "__main__":
 
     original_spatial = np.zeros((n_steps, spatial_dim))
 
-    scale = 2
+    scale = 1
     increments = scale * np.random.randn(n_steps - 1, 3)
     bm3d = np.vstack([np.zeros(3), np.cumsum(increments, axis=0)])
 
@@ -118,15 +118,15 @@ if __name__ == "__main__":
     print(f"Target signature norm: {np.linalg.norm(target_sig):.4f}")
    
     print("\nStarting inversion...")
-    recovered_spatial, losses = spherical_random_search(
+    recovered_spatial, losses = greedy_search(
         sig_target_np=target_sig,
         n_steps=n_steps,
         spatial_dim=spatial_dim,
         depth=depth,
         n_iter=2000,
         b=50,
-        eps=12,
-        eps_decay=0.98,
+        eps=5,
+        eps_decay=0.99,
         original_spatial=original_spatial,
         save_interval=5
     )
