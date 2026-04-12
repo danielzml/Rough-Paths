@@ -1,1 +1,1 @@
-The signature transform is a sequence of summary statistics that encodes the joint evolution of different channels, such as the order of events. We compute signature transforms and signature kernels using only NumPy and SciPy.
+The signature transform is a sequence of summary statistics that encodes the joint evolution of different channels in a data stream. We compute signature transforms and signature kernels using only NumPy and SciPy.
