@@ -1,1 +1,1 @@
-The signature transform is a feature map for multivariate time series data. Calculations are done using only NumPy and SciPy.
+We compute signature transforms and signature kernels from scratch, only using NumPy and SciPy.
