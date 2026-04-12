@@ -158,3 +158,4 @@ if __name__ == "__main__":
     plt.close()
    
     print(f"\nFinal loss: {losses[-1]:.6f}")
+
