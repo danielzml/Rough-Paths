@@ -1,1 +1,1 @@
-The signature transform is a nonparametric feature map for multivariate time series data. We implement both the transform and its associated kernel using only NumPy and SciPy.
+The signature transform is a nonparametric feature map for multivariate time series data. We perform signature calculations using only NumPy and SciPy.
