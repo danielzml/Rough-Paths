@@ -58,17 +58,15 @@ def spherical_random_search(
         best_idx = np.argmin(losses_batch)
         best_loss = losses_batch[best_idx]
        
-        improved = False
         if best_loss < loss_current:
             spatial = candidates[best_idx]  # Already aligned
             loss_current = best_loss
-            improved = True
        
         losses.append(loss_current)
         eps *= eps_decay
        
         if it % save_interval == 0 or it == n_iter - 1:
-            print(f"Iter {it}: Loss = {loss_current:.6f}, eps = {eps:.4f}, improved={improved}")
+            print(f"Iter {it}: Loss = {loss_current:.6f}, eps = {eps:.4f}")
            
             if original_spatial is not None:
                 fig = plt.figure(figsize=(8, 6))
@@ -127,8 +125,8 @@ if __name__ == "__main__":
         depth=depth,
         n_iter=2000,
         b=50,
-        eps=10,
-        eps_decay=0.995,
+        eps=12,
+        eps_decay=0.98,
         original_spatial=original_spatial,
         save_interval=5
     )
