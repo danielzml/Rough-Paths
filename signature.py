@@ -4,7 +4,7 @@ from scipy.integrate import solve_ivp
 
 def signatures_via_cde_batch(paths, depth):
     """
-    Solve CDEs for multiple paths simultaneously via block diagonal system
+    Solve CDEs for multiple paths simultaneously
     
     Args:
         paths: array shape (num_paths, num_times, dim) - batch of paths
