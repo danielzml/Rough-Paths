@@ -1,1 +1,1 @@
-The signature transform summarises how multiple channels in a data stream evolve together, serving as a powerful feature map across many machine learning tasks. We implement both the transform and its associated kernel using just NumPy and SciPy.
+The signature transform is a nonparametric feature map for time series data. We implement both the transform and its associated kernel using just NumPy and SciPy.
