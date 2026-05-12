@@ -36,11 +36,18 @@ def chen_multiply(sig_a: np.ndarray, sig_b: np.ndarray, dim: int, depth: int) ->
     return np.concatenate(levels)
 
 
-def extend_depth2_to_depth3(sig2: np.ndarray, dim: int) -> np.ndarray:
-    total_dim_3 = sum(dim**k for k in range(4))
-    total_dim_2 = sum(dim**k for k in range(3))
-    out = np.zeros(total_dim_3)
-    out[:total_dim_2] = sig2
+def extend_depthp_to_depthq(sig_p: np.ndarray, dim: int, depth_p: int, depth_q: int) -> np.ndarray:
+    if depth_q < depth_p:
+        raise ValueError("depth_q must be at least depth_p")
+
+    total_dim_p = sum(dim**k for k in range(depth_p + 1))
+    total_dim_q = sum(dim**k for k in range(depth_q + 1))
+
+    if sig_p.shape[0] != total_dim_p:
+        raise ValueError(f"Expected signature of length {total_dim_p}, got {sig_p.shape[0]}")
+
+    out = np.zeros(total_dim_q)
+    out[:total_dim_p] = sig_p
     return out
 
 
@@ -77,10 +84,10 @@ if __name__ == "__main__":
 
     dim = 4
     batch_size = 1
-    depth_full = 3
-    depth_piece = 2
+    depth_full = 5
+    depth_piece = 3
     num_coarse_points = 10
-    num_segments = 200
+    num_segments = 400
 
     coarse_path = np.cumsum(rng.normal(scale=0.35, size=(num_coarse_points, dim)), axis=0)
     coarse_paths_batch = coarse_path[None, :, :]
@@ -94,9 +101,9 @@ if __name__ == "__main__":
 
     for i in range(num_segments):
         segment = refined_path[i:i + 2][None, :, :]
-        sig2 = signatures_via_cde_batch(segment, depth=depth_piece)[0]
-        sig2_extended = extend_depth2_to_depth3(sig2, dim)
-        product_extended = chen_multiply(product_extended, sig2_extended, dim, depth_full)
+        sig_piece = signatures_via_cde_batch(segment, depth=depth_piece)[0]
+        sig_piece_extended = extend_depthp_to_depthq(sig_piece, dim, depth_piece, depth_full)
+        product_extended = chen_multiply(product_extended, sig_piece_extended, dim, depth_full)
 
     print("Settings")
     print(f"  dim = {dim}")
@@ -109,7 +116,7 @@ if __name__ == "__main__":
     print(A)
     print()
 
-    print("Chen product of segmentwise depth-2 signatures extended with zero level-3")
+    print(f"Chen product of segmentwise depth-{depth_piece} signatures extended to depth-{depth_full}")
     print(product_extended)
     print()
 
